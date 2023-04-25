@@ -104,11 +104,6 @@ button:hover {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.info-item:hover,
-.info-item  :focus {
-    color: white;
-}
-
 b {
     font-size: 15px;
     display: inline-block;
