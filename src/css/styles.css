@@ -53,7 +53,7 @@ button {
 
 button:hover {
     background-color: aqua;
-    color: black;
+    color: rgb(9, 9, 9);
 
     transition-duration: 350ms;
 }
