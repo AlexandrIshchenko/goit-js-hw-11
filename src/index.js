@@ -45,7 +45,6 @@ async function submitForm(e) {
         }
 
         renderImages(response.hits);
-        loadMoreBtn.classList.remove("is-hidden");
 
         Notify.info(`Hooray! We found ${totalHits} images.`,
             {
@@ -56,6 +55,13 @@ async function submitForm(e) {
             },);
         
         lightbox.refresh();
+
+        loadMoreBtn.classList.remove("is-hidden");
+
+        if (response.hits.length < imagesApiService.per_page) {
+            loadMoreBtn.classList.add("is-hidden")
+        }
+
         form.reset()
     } catch (error) {
         erroeMessage
@@ -70,6 +76,9 @@ async function onLoadMore(searchQuery) {
         if (totalImages >= response.totalHits) {
             renderImages(response.hits)
             loadMoreBtn.classList.add("is-hidden");
+            scrollIsPressedButton();
+            lightbox.refresh();
+
             Notify.failure("We're sorry, but you've reached the end of search results!",
                 {
                     timeout: 4000,
@@ -81,7 +90,14 @@ async function onLoadMore(searchQuery) {
         }
 
         renderImages(response.hits);
+        scrollIsPressedButton();
+        lightbox.refresh();
+    }   catch (error) {
+            erroeMessage;
+    }
+}
 
+    function scrollIsPressedButton() {
         const { height: cardHeight } = document
             .querySelector(".gallery")
             .firstElementChild.getBoundingClientRect();
@@ -90,12 +106,7 @@ async function onLoadMore(searchQuery) {
             top: cardHeight * 2,
             behavior: "smooth",
         });
-
-        lightbox.refresh();
-    } catch (error) {
-        errorMessage;
     }
-}
 
 function clearImagesGallery() {
     galleryList.innerHTML = "";
